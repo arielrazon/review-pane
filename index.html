@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            font-family: sans-serif;
+        }
+
+        .review-header {
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .clutch {
+            margin: 0 auto;
+            margin-top: 3rem;
+            margin-bottom: 3rem;
+            font-size: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .clutch img {
+            width: 3rem;
+            margin-left: 0.25rem;
+        }
+
+        #review-area,
+        .review {
+            display: flex;
+            flex-direction: row;
+            flex: 0 0 50%;
+            align-content: space-between;
+        }
+
+        #review-area {
+            margin: 4rem;
+        }
+
+        .review-right {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            padding-right: 2rem;
+        }
+
+        .review-logo {
+            height: 4.25em;
+            width:6em;
+            margin-right: 2rem;
+            align-self: flex-start;
+            max-width: 7rem;
+            height: auto;
+            object-fit: contain;
+            border-radius: 10px;
+            border: 1px solid rgb(234, 234, 234)
+        }
+
+        .comensure{
+            height: 6rem;
+            width:6rem;
+            padding:.25rem;
+        }
+
+        .review-right div {
+            margin-bottom: 1rem;
+            margin-right: 1rem;
+        }
+
+        .review-right div div:last-child{
+            align-self:flex-end;
+        }
+
+        .stars {
+            color: rgb(0, 149, 244);
+            font-size: 1em;
+        }
+
+        p {
+            color: rgb(106, 123, 131);
+            font-size: 0.6em;
+            line-height:0.5em;
+        }
+
+        .review-blurb {
+            font-weight: bold
+        }
+/*setting text color:*/
+        .review-blurb,
+        .review-text {
+            color: rgb(0, 36, 58);
+            font-size: 0.75rem;
+        }
+
+        .reviewer-details{
+            flex-grow:1;
+            flex-direction:column;
+            justify-content:flex-end;
+        }
+
+        .reviewer-details p:last-child {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 class="review-header">Don't take it from us, the word is out there.</h1>
+    <span class="clutch">Extracted from <img class="clutch-icon" src="./New-Clutch-logo_Dark-Blue-2101170060.png"
+            alt="clutch icon" /></span>
+
+    <div id="review-area">
+        <div class="review">
+            <img class="review-logo" src="./nov_logo.png" alt="NOV Logo">
+            <div class="review-right">
+                <div class="stars">&#9733; &#9733; &#9733; &#9733; &#9733;</div>
+                <div class="review-blurb">"Webcreek is a very customer satisfaction-driven company."</div>
+                <div class="review-text">The product has been commercialized, and WebCreek continues to enhance the software with small changes based on user feedback. customers can expect a more laidback project management style, which allows for an uninterrupted flow of information with WebCreek's developers.
+                </div>
+                <div class="reviewer-details">
+                    <p>Alamzeb Khan</p>
+                    <p>Engineering Manager</p>
+                    <p>National Oilwell Varco</p>
+                </div>
+            </div>
+        </div>
+        <div class="review">
+            <img class="review-logo comensure" src="./comensure.png" alt="Comensure Logo">
+            <div class="review-right">
+                <div class="stars">&#9733; &#9733; &#9733; &#9733; &#9733;</div>
+                <div class="review-blurb">"We rely on them wholeheartedly to support our environment."</div>
+                <div class="review-text">The team at WebCreek has become a technical partner for the client. Their insightful guidance is appreciated. They're flexible, supportive, and effiction. Their consultative approach is also noteworthy.</div>
+                <div class="reviewer-details">
+                    <p>Jessica Getz</p>
+                    <p>VP Product Development</p>
+                    <p>Comensure</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript>" async>
+        //defining function for loading clutch images
+        async function loadClutchImages(){
+            let response = await fetch(clutchURL);
+            let reviews = await response.json();
+
+            for(review of reviews){
+                let {starRating,logoURL,blurb,reviewText,reviewerName,reviewerTitle,reviewerCompany} = review;//placeholder for API response properties
+
+                //creating DOM elements to contain review data from Clutch:
+                //1. creating individual review container:
+                let newReview = document.createElement(div);
+                newReview.className = "review";//adding class
+                let logo = document.createElement(img);//logo
+                logo.src=logo;//logo url
+                logo.className="review-logo";//logo class
+                newReview.appendChild(logo);//attaching logo to review
+                let reviewRight = document.createElement(div);//creating text content for right side of review
+                reviewRight.className = "review-right";
+                let reviewBlurb = document.createElement(div);
+                reviewBlurb.className = "review-blurb"//blurb
+                reviewBlurb.textContent = blurb;//blurb text
+                reviewRight.appendChild(reviewBlurb);//attaching to review-right
+                let reviewText = document.createElement(div);
+                reviewText.className = "review-text"
+                reviewText.textContent = reviewText;//
+                reviewRight.appendChild(reviewText);
+                let reviewerDetails = document.createElement(div);
+                let reviewerNameDiv = document.createElement(p);
+                reviewerNameDiv.textContent = reviewerName;
+                reviewerDetails.appendChild(reviewerNameDiv);
+                let reviewerTitleDiv = document.createElement(p);
+                reviewerTitleDiv.textContent = reviewerTitle;
+                reviewerDetails.appendChild(reviewerTitleDiv);
+                let reviewerCompanyDiv = document.createElement(p);
+                reviewerCompanyDiv.textContent = reviewerCompany;
+                reviewerDetails.appendChild(reviewerCompanyDiv);
+                reviewRight.appendChild(reviewerDetails);
+                newReview.appendChild(reviewRight);
+
+                document.getElementById("review-area").appendChild(newReview);
+            }
+
+        }
+    </script>
+</body>
+
+</html>
